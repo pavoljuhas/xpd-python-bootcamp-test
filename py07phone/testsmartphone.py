@@ -3,9 +3,6 @@
 """Unit tests for smartphone.py
 """
 
-# version
-__id__ = '$Id$'
-
 import os
 import unittest
 
@@ -53,6 +50,28 @@ class TestSmartPhone(unittest.TestCase):
         return
 
 # End of class TestSmartPhone
+
+##############################################################################
+
+class _CaptureStdout(object):
+
+    output = None
+
+    def __enter__(self):
+        import sys
+        import cStringIO
+        self.save_stdout = sys.stdout
+        self.output = cStringIO.StringIO()
+        sys.stdout = self.output
+        return
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        sys.stdout = self.save_stdout
+
+    def __str__(self):
+        return '' if self.output is None else self.output.getvalue()
+
+##############################################################################
 
 if __name__ == '__main__':
     unittest.main()
